@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native'
 
 export default StyleSheet.create({
     container: {
+        flex: 1,
         marginTop: 20,
         backgroundColor: '#EDEDED'
     },
@@ -13,6 +14,9 @@ export default StyleSheet.create({
     },
     minHeight: {
         minHeight: 50
+    },
+    rightAlign: {
+        alignItems: 'flex-end'
     },
     navBar: {
         flex: 1,

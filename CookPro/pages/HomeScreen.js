@@ -4,67 +4,66 @@ import AddPantryItem from '../components/AddPantryItem';
 import ListPantryItems from '../components/ListPantryItems';
 import { ScrollView, Text, View, Button, FlatList } from 'react-native';
 
-const pantry = [
-  {
-      name: 'Apple',
-      check: true
-  },
-  {
-      name: 'Spinach',
-      priority: true
-  },
-  {
-      name: 'Olive Oil',
-      priority: false
-  },  
-  {
-      name: 'Beans',
-      priority: false
-  },
-  {
-      name: 'Bread',
-      priority: true
-  },
-  {
-      name: 'Bananas',
-      priority: true
-  },
-  {
-      name: 'Tomatos',
-      priority: true
-  },
-  {
-      name: 'Chicken Broth',
-      priority: false
-  },
-  {
-      name: 'Peppers',
-      priority: true
-  },
-  {
-      name: 'Parmesan',
-      priority: true
-  },
-  {
-      name:'Mozzarella',
-      priority: true
-  },
-  {
-      name:'Chicken',
-      priority: true
-  },
-  {
-      name:'Tomatoes',
-      priority: true
-  },
 
-];
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: pantry,
+        items: [
+          {
+            name: 'Apple',
+            check: true
+        },
+        {
+            name: 'Spinach',
+            check: true
+        },
+        {
+            name: 'Olive Oil',
+            check: false
+        },  
+        {
+            name: 'Beans',
+            check: false
+        },
+        {
+            name: 'Bread',
+            check: true
+        },
+        {
+            name: 'Bananas',
+            check: true
+        },
+        {
+            name: 'Tomatos',
+            check: true
+        },
+        {
+            name: 'Chicken Broth',
+            check: false
+        },
+        {
+            name: 'Peppers',
+            check: true
+        },
+        {
+            name: 'Parmesan',
+            check: true
+        },
+        {
+            name:'Mozzarella',
+            check: true
+        },
+        {
+            name:'Chicken',
+            check: true
+        },
+        {
+            name:'Tomatoes',
+            check: true
+        },
+      ],
       itemName: '',
       check: false
     }
@@ -83,6 +82,12 @@ export default class HomeScreen extends React.Component {
     })
   }
 
+  togglePriorityInList = (index) => {
+    let objs = this.state.items;
+    objs[index].check = !objs[index].check ;
+    this.setState({ items: objs })
+  }
+
   addItem = () => {
     const obj = {
       name: this.state.itemName,
@@ -90,6 +95,12 @@ export default class HomeScreen extends React.Component {
     }
     const newObj = [...this.state.items, obj]
     this.setState({ items: newObj })  
+  }
+
+  deleteItem = (index) => {
+    const newObj = [...this.state.items];
+    newObj.splice(index, 1);
+    this.setState({ items: newObj })
   }
 
   static navigationOptions = {
@@ -124,24 +135,24 @@ export default class HomeScreen extends React.Component {
 
         <AddPantryItem update={this.updateItemName} toggle={this.togglePriority} check={this.state.check} itemName={this.state.itemName}/>
       
-        <ListPantryItems data={this.state.items} toggle={this.togglePriority} update={this.updateItemName}/>
+        <ListPantryItems data={this.state.items} toggle={this.togglePriorityInList} update={this.updateItemName} delete={this.deleteItem}/>
 
         <View style={styles.navBar}>
-          <Button 
-            color="#8fBA21"
-            title="Home"
-            onPress={() => navigate('Home')}>
-          </Button>
-          <Button 
-            color="#8fBA21"
-            title="Recipes"
-            onPress={() => navigate('Recipes')}>
-          </Button>
-          <Button 
-            color="#8fBA21"
-            title="Favorites"
-            onPress={() => navigate('Favorites')}>
-          </Button>
+            <Button 
+              color="#8fBA21"
+              title="Home"
+              onPress={() => navigate('Home')}>
+            </Button>
+            <Button 
+              color="#8fBA21"
+              title="Recipes"
+              onPress={() => navigate('Recipes')}>
+            </Button>
+            <Button 
+              color="#8fBA21"
+              title="Favorites"
+              onPress={() => navigate('Favorites')}>
+            </Button>
           </View> 
         </ScrollView>
       </View>
