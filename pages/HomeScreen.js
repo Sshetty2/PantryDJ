@@ -1,10 +1,20 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import styles from '../stylesheet';
 import AddPantryItem from '../components/AddPantryItem';
 import ListPantryItems from '../components/ListPantryItems';
 import { ScrollView, Text, View, Button, FlatList } from 'react-native';
+import firebase from 'firebase';
 
-
+// this config is taken from the firebase console dashboard
+var config = {
+  apiKey: "AIzaSyCIOo4DN9p7plURoQXrfFgm1dEDPdsM9DY",
+  authDomain: "cramm-chatboard.firebaseapp.com",
+  databaseURL: "https://cramm-chatboard.firebaseio.com",
+  projectId: "cramm-chatboard",
+  storageBucket: "cramm-chatboard.appspot.com",
+  messagingSenderId: "651037104135"
+};
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -72,6 +82,15 @@ export default class HomeScreen extends React.Component {
     this.addItem = this.addItem.bind(this);
   }
 
+  componentDidMount(){
+    // initialize firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
+    // an example of writing user data to the db
+    this.writeUserData('apple', 'false')
+  }
+
   updateItemName = (text) => {
     this.setState({ itemName: text })
   }
@@ -101,6 +120,20 @@ export default class HomeScreen extends React.Component {
     const newObj = [...this.state.items];
     newObj.splice(index, 1);
     this.setState({ items: newObj })
+  }
+
+  // a generic function that will write user data to the db
+  writeUserData(name, priority){
+    firebase.database().ref('items').push({
+        name,
+        priority
+    }).then((data)=>{
+        //success callback
+        console.log('data' , data)
+    }).catch((error)=>{
+        //error callback
+        console.log('error ' , error)
+    })
   }
 
   static navigationOptions = {
