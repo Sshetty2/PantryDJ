@@ -7,7 +7,7 @@ import { ScrollView, Text, View, Button, FlatList } from 'react-native';
 const pantry = [
   {
       name: 'Apple',
-      priority: true
+      check: true
   },
   {
       name: 'Spinach',
@@ -16,7 +16,7 @@ const pantry = [
   {
       name: 'Olive Oil',
       priority: false
-  },
+  },  
   {
       name: 'Beans',
       priority: false
@@ -60,12 +60,11 @@ const pantry = [
 
 ];
 
-
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [...pantry],
+      items: pantry,
       itemName: '',
       check: false
     }
@@ -75,7 +74,7 @@ export default class HomeScreen extends React.Component {
   }
 
   updateItemName = (text) => {
-    this.state({ itemName: text})
+    this.setState({ itemName: text })
   }
 
   togglePriority = () => {
@@ -84,8 +83,13 @@ export default class HomeScreen extends React.Component {
     })
   }
 
-  addItem = (item) => {
-
+  addItem = () => {
+    const obj = {
+      name: this.state.itemName,
+      check: this.state.check
+    }
+    const newObj = [...this.state.items, obj]
+    this.setState({ items: newObj })  
   }
 
   static navigationOptions = {
@@ -114,13 +118,13 @@ export default class HomeScreen extends React.Component {
           <Button
             color="#8FBA21"
             title="Add"
-            onPress={() => navigate('Home')}>
+            onPress={() => this.addItem()}>
           </Button>
         </View>
 
         <AddPantryItem update={this.updateItemName} toggle={this.togglePriority} check={this.state.check} itemName={this.state.itemName}/>
       
-        <ListPantryItems data={this.state.items}/>
+        <ListPantryItems data={this.state.items} toggle={this.togglePriority} update={this.updateItemName}/>
 
         <View style={styles.navBar}>
           <Button 

@@ -1,19 +1,22 @@
 import styles from '../stylesheet';
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, CheckBox } from 'react-native';
 
 export default class ListPantryItems extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.props.data.map((value, index) => {
+        {
+            this.props.data.
+            map((value, index) => {
             return (
                 <View key={index}>
-                    <Text>{value}</Text>
-                    {/* <CheckBox
-                    value={this.props.check}
-                    onChange={() => this.props.toggle()}
+                    <Text>{value.name}</Text>
+                     <CheckBox
+                        value={value.priority}
+                        onChange={() => this.props.toggle()}
                     />
+                    {/*
                     <CheckBox
                     value={this.props.check}
                     onChange={() => this.props.toggle()}
